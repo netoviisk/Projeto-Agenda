@@ -1,0 +1,18 @@
+<?php
+include('valida.php');
+$servername = "LOCALHOST";
+$database = "neto_projeto_agenda";
+$username = "root";
+$password = "";
+
+$conn = mysqli_connect($servername, $username, $password, $database);
+
+
+if (!$conn) {
+    die("Conexão Falhou: " . mysqli_connect_error());
+}
+
+
+?>
+
+
