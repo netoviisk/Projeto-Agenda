@@ -1,0 +1,54 @@
+<?php
+if(isset($_SESSION["nomeuso"]))
+	$nomeuso = $_SESSION["nomeuso"]; 
+	
+if(isset($_SESSION["senha"]))
+	$senha = $_SESSION["senha"];
+	
+	if(!(empty($nomeuso) || empty($senha))){
+	
+		require("conecta.php");	
+		$sql = "SELECT * 
+                FROM usuario
+                WHERE usu_username='$nomeuso'";
+		
+		// Executa a query
+		$query = mysqli_query($conn, $sql);
+		
+		// Retorna o numero de linhas
+		$result = mysqli_num_rows($query);
+		
+		// Se achou o usuario
+		if( $result == 1){
+		
+			// Passa os valores do resultado para o array $linha
+			$linha = mysqli_fetch_array($query);
+			
+			// Se a senha esta correta
+			if($senha != $linha['usu_password']){
+				session_destroy();
+				echo "<script type='text/javascript'>
+						alert('Voce não efetuou o login!!');
+						exit;
+					  </script>";
+				header("Location:index_page.php");	  
+				}
+			} else {
+				session_destroy();
+				echo "<script type='text/javascript'>
+						alert('Voce não efetuou o login!!');
+						exit;
+					  </script>";
+				header("Location:index_page.php");
+			}
+		}
+		else { // Se o usuario não existe
+				session_destroy();
+			    echo "<script type='text/javascript'>
+						alert('Voce não efetuou o login!!');
+						exit;
+					  </script>";
+			    header("Location:index_page.php");	
+		    }
+	
+?>
