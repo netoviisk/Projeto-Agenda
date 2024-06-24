@@ -1,0 +1,124 @@
+<?php
+session_start();
+include('valida.php');
+
+?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de Contatos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #999999;
+        }
+
+        header {
+            background-color: #000000;
+            color: rgb(255, 255, 255);
+            text-align: center;
+            padding: 1em;
+        }
+
+        fieldset {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-bottom: 16px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #000000;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4d4d4d;
+        }
+
+        .bnt {
+            cursor: pointer;
+            padding: 6px 10px;
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+        }
+
+        nav {
+            background-color: #4d4d4d;
+            padding: 1em;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.5em 1em;
+            margin-right: 10px;
+            border-radius: 5px;
+            background-color: #000000;
+        }
+
+        nav a:hover {
+            background-color: #999999;
+        }
+
+        footer {
+            background-color: #000000;
+            color: #ffffff;
+            text-align: center;
+            padding: 1em;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+  </style>
+</head>
+<body>
+
+    <header>
+        <h1>Home</h1>
+        <img src="casinha.png" title="" alt="" width="100" height="100">
+    </header>
+
+    <nav>
+        <a href="index_page.html">Home</a>
+        <a href="contatos_page.php">Contatos</a>
+        <a href="cidades_page.php">Cidades</a>
+        <a href="consultas_page.php">Consultas</a>
+        <a href="logout.php">Sair</a>
+  </nav>
+
+    <section>
+        <h2>Bem-vindo à Agenda de Contatos</h2>
+        <p>Aqui você pode gerenciar seus contatos de forma fácil e rápida.</p>
+    </section>
+
+    <footer>
+        <p>&copy; Net'in</p>
+    </footer>
+
+</body>
+</html>
