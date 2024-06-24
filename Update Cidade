@@ -1,0 +1,22 @@
+<?php
+session_start();
+include('valida.php');
+include("conecta.php");
+
+$cidnome = $_GET["nomecid"];
+$uf      = $_GET["uf"];
+$codigocid = $_GET["id"]; 
+
+
+$sql = "UPDATE cidade SET cid_nome='$cidnome', cid_uf='$uf' WHERE cid_codigo='$codigocid'";
+
+if (mysqli_query($conn, $sql)) {
+      echo "Registro Alterado com Sucesso!";
+} else {
+      echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+
+mysqli_close($conn);
+
+?>
