@@ -1,0 +1,61 @@
+<?php
+
+// Conexão com o banco de dados
+/*$servername = "localhost"; // ou o endereço do servidor MySQL
+$username = "seu_usuario";
+$password = "sua_senha";
+$database = "seu_banco_de_dados";
+
+$conn = new mysqli($servername, $username, $password, $database);*/
+include("conecta.php");
+// Verifica a conexão
+if ($conn->connect_error) {
+    die("Falha na conexão com o banco de dados: " . $conn->connect_error);
+}
+
+// Verifica se o formulário foi submetido
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Inserir dados do contato na tabela contatos
+    $nome = $_POST["nomecli"];
+    $endereco = $_POST["endereco"];
+    $bairro = $_POST["bairro"];
+    $cidade = $_POST["codcid"];
+
+    $sql_contato = "INSERT INTO contato (con_nome, con_endereco, con_bairro, con_codigo) 
+                    VALUES ('$nome', '$endereco', '$bairro', '$cidade')";
+
+    if ($conn->query($sql_contato) === TRUE) {
+        $contato_id = $conn->insert_id; // Obtém o ID gerado automaticamente para o novo contato
+
+        // Inserir telefones na tabela telefones
+      /*  if (isset($_POST["tipoTelefone"]) && isset($_POST["numeroTelefone"])) {
+            $tiposTelefone = $_POST["tipoTelefone"];
+            $numerosTelefone = $_POST["numeroTelefone"];
+
+            foreach ($tiposTelefone as $key => $tipo) {
+                $numero = $numerosTelefone[$key];
+                $sql_telefone = "INSERT INTO tbl_telefones (tel_numero, cli_codigo) VALUES ('$numero','$contato_id')";
+                $conn->query($sql_telefone);
+            }
+        }
+
+        // Inserir emails na tabela emails (supondo que você tenha uma tabela de emails)
+        if (isset($_POST["endemail"])) {
+            $emails = $_POST["endemail"];
+
+            foreach ($emails as $email) {
+                $sql_email = "INSERT INTO tbl_email (ema_endereco, cli_codigo) VALUES ('$email', '$contato_id')";
+                $conn->query($sql_email);
+            }
+        } */
+
+        echo "Contato cadastrado com sucesso!";
+    } else {
+        echo "Erro ao cadastrar contato: " . $conn->error;
+    }
+}
+
+$conn->close();
+?>
+
+
