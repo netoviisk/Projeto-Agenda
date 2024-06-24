@@ -1,0 +1,42 @@
+
+<?php
+
+
+ session_start();
+ $nomeuso = $_POST["nomeuso"];
+ $senha   = $_POST["senha"];
+
+ $nomeuso = trim($nomeuso);
+ $senha   = trim($senha);
+
+ if(empty($nomeuso) || empty($senha)) {
+    echo "<script type='text/javascript'>
+     alert('Dados em branco! Digite o username e a senha!!!');
+     history.back(1);
+     </script>";
+ } else{
+    include('conecta.php');
+
+    $sql = "SELECT * FROM usuario
+            WHERE usu_username='$nomeuso' AND usu_password='$senha'";
+    $query     = mysqli_query($conn,$sql);
+    $resultado = mysqli_num_rows($query);
+
+ if($resultado==0){
+    echo "<script type='text/javascript'>
+    alert('Dados incorretos! Digite o username e a senha!!!');
+    history.back(1);
+    </script>";
+ } else{
+    $linha = mysqli_fetch_array($query);
+
+    $_SESSION["nomeusuario"] = $linha['usu_nome'];
+    $_SESSION["nomeuso"]     = $linha['usu_username'];
+    $_SESSION["senha"]       = $linha['usu_password'];
+    $_SESSION["codigo"]      = $linha['usu_codigo'];
+
+    print "BORAAAA!!!!";
+    header("Location:principal.php");
+ }
+}
+ ?>
