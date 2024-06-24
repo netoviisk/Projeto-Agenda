@@ -1,0 +1,263 @@
+<?php
+session_start();
+include('valida.php');
+if (isset($_GET["id"])){
+
+$id = $_GET["id"];
+
+if (!empty($id)) {
+  
+  include("conecta.php");
+
+  $sqlcon = "Select * from contato where cid_codigo ='$id'";
+  $querycon = mysqli_query($conn,$sqlcon);
+  $numcon = mysqli_num_rows($querycon);
+  if ($numcon>0) {
+    print "Cidade esta relacionada com Contatos. Proibido Exclusão!";    
+   }else{
+    $sqlexc= "delete from cidade where cid_codigo ='$id'";
+	  $queryexc = mysqli_query($conn,$sqlexc);
+  }
+}
+}
+
+?>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agenda de Contato</title>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #999999;
+        }
+
+        header {
+            background-color: #000000;
+            color: rgb(255, 255, 255);
+            text-align: center;
+            padding: 1em;
+        }
+
+        fieldset {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-bottom: 16px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #000000;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4d4d4d;
+        }
+
+        .bnt {
+            cursor: pointer;
+            padding: 6px 10px;
+            background-color: #000000;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+        }
+
+        nav {
+            background-color: #4d4d4d;
+            padding: 1em;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.5em 1em;
+            margin-right: 10px;
+            border-radius: 5px;
+            background-color: #000000;
+        }
+
+        nav a:hover {
+            background-color: #999999;
+        }
+
+        footer {
+            background-color: #000000;
+            color: #ffffff;
+            text-align: center;
+            padding: 1em;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+  </style>
+</head>
+<body>
+
+  <header>
+   <h1>Agenda de Contatos</h1>
+  </header>
+
+  <nav>
+        <a href="index_page.html">Home</a>
+        <a href="contatos_page.php">Contatos</a>
+        <a href="cidades_page.php">Cidades</a>
+        <a href="consultas_page.php">Consultas</a>
+        <a href="logout.php">Sair</a>
+  </nav>
+
+  <h2>Cadastro de Cidades</h2>
+
+  <?php
+    include("conecta.php");
+  ?>
+
+ <div id="status"></div>
+  
+ <form name="cidadeform" action="#" id="cidadeform">
+    <fieldset>
+      <legend>Dados da Cidade</legend>
+      <input type="hidden" id="id" name="id">
+      <label for="nome">Nome da Cidade:</label>
+      <input type="text" id="nomecid" name="nomecid" placeholder="Informe o nome da Cidade!" required>
+
+      <label for="uf1" id="uf1">UF:</label>
+      <select name="uf" id="uf" required >
+        <option value=""></option>
+        <option value="AC">AC</option>
+        <option value="BA">BA</option>
+        <option value="MG">MG</option>
+        <option value="DF">DF</option>
+        <option value="GO">GO</option>
+      </select>
+
+      
+    </fieldset>
+    <input type="submit" value="Cadastrar">
+  
+  </form>
+
+  
+    <fieldset>
+      <legend>Cidades</legend>
+      <table id="cidadesTable">
+        <thead>
+          <tr>
+            <th>Nome Cidade</th>
+            <th>UF</th>
+            <th>Alterar</th>
+            <th>Excluir</th>
+          </tr>
+        </thead>
+        <tbody>
+        <?php
+           include("conecta.php");
+           $sqlcidades = "Select * from cidade order by cid_nome";
+           $querycidades = mysqli_query($conn,$sqlcidades);
+           $resulta = mysqli_num_rows($querycidades); 					
+                                           
+            if ($resulta>0) {									  
+                $i = 0;
+                while ($linhacidade = mysqli_fetch_array($querycidades)) {
+                    $i++;
+            ?>
+          <tr>
+            
+             <?php
+             print"
+               <td>
+                 <strong>$linhacidade[1]</strong>
+               </td>
+               <td>
+                  <input type=\"hidden\" id=\"codigocid\" name=\"codigocid\" value=\"$linhacidade[0]\">
+                  <strong>$linhacidade[2]</strong>
+               </td>
+               <td>
+               <a href=\"alteracidades.php?id=$linhacidade[0]\">  
+                <button type=\"button\" class=\"btna btn-remove\">Alterar</button>
+                </a>
+               </td>
+               <td>
+                <a href=\"cidades_page.php?id=$linhacidade[0]\" onclick=\"return confirm('Confirmar exclusão do registro?');\">
+                <button type=\"button\" class=\"btn btn-remove\">Remover</button>
+                </a> 
+                  
+              </td>"; 
+           }
+			 }
+            ?>
+          </tr>
+        </tbody>
+      </table>
+      </fieldset>
+   
+  
+
+<footer>
+  <p>&copy; Net'in</p>
+</footer>
+
+</body>
+
+<script type="text/javascript" language="javascript" src="jquery-1.3.2.js">
+</script>
+  <script type="text/javascript" language="javascript">
+   $(function($) {
+	// Quando o formulário for enviado, essa função é chamada
+	$("#cidadeform").submit(function() {
+		// Colocamos os valores de cada campo em uma váriavel para facilitar a manipulação
+		var nomecid = $("#nomecid").val();
+		var uf = $("#uf").val();
+		var id = $("#id").val();		
+		// Fazemos a requisão ajax com o arquivo envia.php e enviamos os valores de cada campo através do método POST
+		$.post('insert_cidades.php', {nomecid: nomecid, uf: uf, id: id}, function(resposta) {
+				// Quando terminada a requisição
+				
+                // Exibe a div status
+				$("#status").slideDown();
+				
+                // Se a resposta é um erro
+				if (resposta != false) {
+					// Exibe o erro na div
+					$("#status").html(resposta);
+				} 
+				// Se resposta for false, ou seja, não ocorreu nenhum erro
+				else {
+					// Exibe mensagem de sucesso
+					$("#status").html("Cadastro Efetuado com sucesso!");
+										
+					// Limpando todos os campos
+					$("#nomecid").val("");
+					$("#uf").val("");
+					
+					
+				}
+		});
+	});
+});
+</script> 
+
+ 
+</html>
